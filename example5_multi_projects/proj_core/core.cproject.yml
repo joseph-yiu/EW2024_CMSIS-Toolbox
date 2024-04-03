@@ -1,0 +1,26 @@
+project:
+  description: CoreMark-Pro core project files
+
+  groups:
+    - group: core
+      files:
+        - file: ../externals/coremark-pro/benchmarks/core/core_mith.c
+        - file: ../externals/coremark-pro/benchmarks/core/core_list_join.c
+        - file: ../externals/coremark-pro/benchmarks/core/core_matrix.c
+        - file: ../externals/coremark-pro/benchmarks/core/core_state.c
+        - file: ../externals/coremark-pro/benchmarks/core/core_util.c
+        - file: ../externals/coremark-pro/benchmarks/core/core_portme.c
+        - file: ../externals/coremark-pro/workloads/core/core.c
+
+  add-path:
+    - ../externals/coremark-pro/benchmarks/core
+
+  define:
+    - USE_FP32: 1
+    - USE_FP64: 0
+
+  layers:
+    - layer: ../coremark-pro_common.clayer.yml
+    - layer: ../mps2_cmx_platform.clayer.yml
+    - layer: toolchains_setup.clayer.yml
+ 

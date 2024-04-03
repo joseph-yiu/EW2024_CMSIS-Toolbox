@@ -1,0 +1,339 @@
+project:
+  packs:
+    - pack: ARM::CMSIS                      # Note:version specifier is optional
+    - pack: Keil::V2M-MPS2_CMx_BSP          # Note:version specifier is optional
+    - pack: Keil::V2M-MPS2_IOTKit_BSP@1.5.1 # Note:version specifier is optional
+    - pack: Keil::MDK-Middleware            # Need by the LED component
+    - pack: Keil::MDK-Middleware_Graphics   # Need by the MDK-Middleware pack
+    - pack: ARM::V2M_MPS3_SSE_300_BSP@1.5.0  # Board support package for AN552 FPGA image
+    - pack: ARM::V2M_MPS3_SSE_310_BSP@1.4.0  # Board support package for AN555 FPGA image
+    - pack: ARM::CMSIS-Compiler             # CMSIS-Compiler for printf
+  setups:
+    - setup: Options for MPS2_CMx
+      debug: "on"
+      define:
+        - ITERATIONS: "2000"
+        - STANDALONE
+        - PERFORMANCE_RUN: "1"
+      misc:
+        - for-compiler: AC6
+          C:
+            - -std=c99
+            - -Omax
+            # If using MicroLIB, uncomment the following line to add __MICROLIB macro,
+            # and uncomment "- --library_type=microlib" in Link: section.
+            #- -D__MICROLIB
+          C-CPP:
+            - -Omax
+            - -fno-rtti
+            - -funsigned-char
+            - -fshort-enums
+            - -fshort-wchar
+            - -ffast-math
+            - -ffunction-sections
+            - -Weverything
+            - -Wno-packed
+            - -Wno-reserved-id-macro
+            - -Wno-unused-macros
+            - -Wno-documentation-unknown-command
+            - -Wno-documentation
+            - -Wno-license-management
+            - -Wno-parentheses-equality
+          CPP:
+            - -xc++
+            - -std=c++98
+          ASM:
+            - -masm=auto
+          Link:
+            - --map
+            - --load_addr_map_info
+            - --xref
+            - --callgraph
+            - --symbols
+            - --info sizes
+            - --info totals
+            - --info unused
+            - --info veneers
+            - --lto
+            - -Omax
+            # If using MicroLIB, uncomment the following line
+            #- --library_type=microlib
+            - --strict
+            - --summary_stderr
+            - --info summarysizes
+        - for-compiler: GCC
+          C:
+            - -Ofast
+            - -ffast-math
+            - -std=gnu11
+            - -funroll-loops
+            - -finline-functions
+            - --param max-inline-insns-auto=200
+            - -falign-functions=4
+            - -falign-jumps=4
+            - -falign-loops=4
+            - -fomit-frame-pointer
+            - -funroll-all-loops
+            - -finline-limit=10000
+            - -ftree-dominator-opts
+            - -fno-if-conversion2
+            - -fselective-scheduling
+            - -fno-code-hoisting
+          Link:
+            #- --specs=nano.specs
+            #- --specs=rdimon.specs
+            - -Wl,-Map=$elf()$.map
+        - for-compiler: CLANG
+          C:
+            - -std=gnu11
+            - -Ofast
+            - -ffast-math
+          Link:
+            #- -lcrt0-semihost
+            #- -lsemihost
+            - -Wl,-Map=$elf()$.map
+        - for-compiler: IAR
+          C-CPP:
+            #- -Ohs  # This is commented out because target-types in the 
+            #        # csolution file already contains "optimize: speed"
+            #        # If both are used, the compiler will complaint.
+            - --no_size_constraints
+            - --dlib_config DLib_Config_Full.h
+          Link:
+            - --semihosting
+            - --map=$elf()$.map
+  groups:
+    - group: Documentation
+      files: 
+        - file: ./README.md
+    - group: CoreMark
+      files:
+        - file: externals/coremark/core_main.c
+        - file: externals/coremark/core_list_join.c
+        - file: externals/coremark/core_matrix.c
+        - file: externals/coremark/core_state.c
+        - file: externals/coremark/core_util.c
+    - group: Porting
+      files:
+        - file: core_portme.c
+        - file: timer_funcs.c
+        - file: uart_funcs.c
+        - file: cache_init.c
+
+  add-path:
+    - externals/coremark/
+    - ./
+
+  components:
+    - component: ARM::CMSIS:CORE                   # CMSIS
+    - component: Keil::Device:Startup&C Startup    # Device startup
+      for-context:
+        - +MPS2_CM0
+        - +MPS2_CM0plus
+        - +MPS2_CM3
+        - +MPS2_CM4
+        - +MPS2_CM4_FP
+        - +MPS2_CM7
+        - +MPS2_CM7_SP
+        - +MPS2_CM7_DP
+        - +MPS2_CM33
+        - +MPS2_CM33_FP
+        - +MPS2_CM23	    
+    - component: ARM::CMSIS-Compiler:CORE          # CMSIS-Compiler CORE
+    - component: ARM::CMSIS-Compiler:STDOUT:Custom # Custom STDOUT
+    - component: Keil::Board Support&V2M-MPS2:LED  # LED component
+      for-context:
+        - +MPS2_CM0
+        - +MPS2_CM0plus
+        - +MPS2_CM3
+        - +MPS2_CM4
+        - +MPS2_CM4_FP
+        - +MPS2_CM7
+        - +MPS2_CM7_SP
+        - +MPS2_CM7_DP
+    - component: Keil::Board Support&V2M-MPS2 IOT-Kit:LED  # LED component
+      for-context:
+        - +MPS2_CM33
+        - +MPS2_CM33_FP
+        - +MPS2_CM23
+    - component: ARM::Device:Startup&C Startup     # Device startup
+      for-context:
+        - +MPS3-Corstone-300
+        - +MPS3-Corstone-310
+    - component: ARM::Device:Definition            # Device driver
+      for-context:
+        - +MPS3-Corstone-300
+        - +MPS3-Corstone-310
+    - component: ARM::Device:Native Driver:IO@1.1.0       # Device driver - for LED
+      for-context:
+        - +MPS3-Corstone-300
+    - component: ARM::Device:Native Driver:IO@1.0.1       # Device driver - for LED
+      for-context:
+        - +MPS3-Corstone-310
+    - component: ARM::Device:Native Driver:SysCounter     # Device driver
+      for-context:
+        - +MPS3-Corstone-300
+    - component: ARM::Device:Native Driver:SysTimer       # Device driver
+      for-context:
+        - +MPS3-Corstone-300
+    - component: ARM::Device:Native Driver:Timeout        # Device driver
+      for-context:
+        - +MPS3-Corstone-300
+    - component: ARM::Device:Native Driver:UART          # Device driver
+      for-context:
+        - +MPS3-Corstone-300
+        - +MPS3-Corstone-310
+    - component: ARM::CMSIS Driver:USART
+      for-context:
+        - +MPS3-Corstone-310
+
+
+  linker:
+    # For Armv6-M and Armv7-M FPGA images
+    - script: linker_scripts/Armv6M_v7M/ac6_arm.sct
+      for-context:
+        - +MPS2_CM0
+        - +MPS2_CM0plus
+        - +MPS2_CM3
+        - +MPS2_CM4
+        - +MPS2_CM4_FP
+        - +MPS2_CM7
+        - +MPS2_CM7_SP
+        - +MPS2_CM7_DP
+      for-compiler: AC6
+
+    - script: linker_scripts/Armv6M_v7M/clang_linker_script.ld
+      for-context:
+        - +MPS2_CM0
+        - +MPS2_CM0plus
+        - +MPS2_CM3
+        - +MPS2_CM4
+        - +MPS2_CM4_FP
+        - +MPS2_CM7
+        - +MPS2_CM7_SP
+        - +MPS2_CM7_DP
+      for-compiler: CLANG
+
+    - script: linker_scripts/Armv6M_v7M/gcc_arm.ld
+      for-context:
+        - +MPS2_CM0
+        - +MPS2_CM0plus
+        - +MPS2_CM3
+        - +MPS2_CM4
+        - +MPS2_CM4_FP
+        - +MPS2_CM7
+        - +MPS2_CM7_SP
+        - +MPS2_CM7_DP
+      for-compiler: GCC
+
+    - script: linker_scripts/Armv6M_v7M/iar_linker_script.icf
+      for-context:
+        - +MPS2_CM0
+        - +MPS2_CM0plus
+        - +MPS2_CM3
+        - +MPS2_CM4
+        - +MPS2_CM4_FP
+        - +MPS2_CM7
+        - +MPS2_CM7_SP
+        - +MPS2_CM7_DP
+      for-compiler: IAR
+
+    - regions: linker_scripts/Armv6M_v7M/regions_CMSDK_CMx.h
+      for-context:
+        - +MPS2_CM0
+        - +MPS2_CM0plus
+        - +MPS2_CM3
+        - +MPS2_CM4
+        - +MPS2_CM4_FP
+        - +MPS2_CM7
+        - +MPS2_CM7_SP
+        - +MPS2_CM7_DP
+      for-compiler: CLANG
+
+    # For Armv8-M FPGA images
+    - script: linker_scripts/Armv8M/ac6_arm.sct
+      for-context:
+        - +MPS2_CM33
+        - +MPS2_CM33_FP
+        - +MPS2_CM23
+      for-compiler: AC6
+
+    - script: linker_scripts/Armv8M/clang_linker_script.ld
+      for-context:
+        - +MPS2_CM33
+        - +MPS2_CM33_FP
+        - +MPS2_CM23
+      for-compiler: CLANG
+
+    - script: linker_scripts/Armv8M/gcc_arm.ld
+      for-context:
+        - +MPS2_CM33
+        - +MPS2_CM33_FP
+        - +MPS2_CM23
+      for-compiler: GCC
+
+    - script: linker_scripts/Armv8M/iar_linker_script.icf
+      for-context:
+        - +MPS2_CM33
+        - +MPS2_CM33_FP
+        - +MPS2_CM23
+      for-compiler: IAR
+
+    - regions: linker_scripts/Armv8M/regions_CMSDK_CMx.h
+      for-context:
+        - +MPS2_CM33
+        - +MPS2_CM33_FP
+        - +MPS2_CM23
+      for-compiler: CLANG
+
+    # For AN552 FPGA image
+    - script: linker_scripts/SSE300_AN552/ac6_arm.sct
+      for-context:
+        - +MPS3-Corstone-300 
+      for-compiler: AC6
+
+    - script: linker_scripts/SSE300_AN552/clang_linker_script.ld
+      for-context:
+        - +MPS3-Corstone-300 
+      for-compiler: CLANG
+
+    - script: linker_scripts/SSE300_AN552/gcc_arm.ld
+      for-context:
+        - +MPS3-Corstone-300 
+      for-compiler: GCC
+
+    - script: linker_scripts/SSE300_AN552/iar_linker_script.icf
+      for-context:
+        - +MPS3-Corstone-300 
+      for-compiler: IAR
+
+    - regions: linker_scripts/SSE300_AN552/regions_AN552_CM55.h
+      for-context:
+        - +MPS3-Corstone-300 
+      for-compiler: CLANG
+
+    # For AN555 FPGA image
+    - script: linker_scripts/SSE310_AN555/ac6_arm.sct
+      for-context:
+        - +MPS3-Corstone-310
+      for-compiler: AC6
+
+    - script: linker_scripts/SSE310_AN555/clang_linker_script.ld
+      for-context:
+        - +MPS3-Corstone-310
+      for-compiler: CLANG
+
+    - script: linker_scripts/SSE310_AN555/gcc_arm.ld
+      for-context:
+        - +MPS3-Corstone-310
+      for-compiler: GCC
+
+    - script: linker_scripts/SSE310_AN555/iar_linker_script.icf
+      for-context:
+        - +MPS3-Corstone-310
+      for-compiler: IAR
+
+    - regions: linker_scripts/SSE310_AN555/regions_AN555_CM85.h
+      for-context:
+        - +MPS3-Corstone-310
+      for-compiler: CLANG

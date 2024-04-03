@@ -1,0 +1,41 @@
+project:
+
+# it is recommended to list the packs that contain the components in the cproject.yml file.
+  packs:
+    - pack: ARM::CMSIS@6.0.0                 # CMSIS-CORE  Note:version specifier is optional
+    - pack: ARM::V2M_MPS3_SSE_300_BSP@1.5.0  # Board support package for AN552 FPGA image
+
+  groups:
+    - group: Documentation
+      files: 
+        - file: ./README.md
+    - group: App
+      files:
+        - file: ./blink.c
+
+  components:
+    - component: ARM::CMSIS:CORE                   # CMSIS
+    - component: ARM::Device:Startup&C Startup     # Device startup
+    - component: ARM::Device:Definition            # Device driver
+    - component: ARM::Device:Native Driver:IO             # Device driver - for LED
+    - component: ARM::Device:Native Driver:SysCounter     # Device driver
+    - component: ARM::Device:Native Driver:SysTimer       # Device driver
+    - component: ARM::Device:Native Driver:Timeout        # Device driver
+
+# Short form - vendor selected from available packs
+#  components:
+#    - component: CMSIS:CORE		       # CMSIS
+#    - component: Device:Startup&C Startup # Device startup
+#    - component: Device:Definition	       # Device driver
+#    - component: Device:Native Driver:IO	          # Device driver - for LED
+#    - component: Device:Native Driver:SysCounter     # Device driver
+#    - component: Device:Native Driver:SysTimer       # Device driver
+#    - component: Device:Native Driver:Timeout        # Device driver
+
+  # The memory descriptions in the SSE-300 CMSIS-PACK (.pdsc file) contains 
+  # multiple RAM regions. To ensure the right RAM region is used by the IAR 
+  # toolchain instead of the first available RAM region (i.e. I-TCM), a 
+  # linker script is used.
+  linker:
+    - script: linker_scripts/iar_linker_script.icf
+      for-compiler: IAR

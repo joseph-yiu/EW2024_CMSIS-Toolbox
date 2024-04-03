@@ -1,0 +1,32 @@
+solution:
+  created-for: CMSIS-Toolbox@2.0.0
+  description: CoreMark-Pro
+  
+  cdefault:
+  # Default compiler - can be AC6, CLANG, GCC, IAR. 
+  # This can be overridden using command line option.
+  compiler: AC6
+
+
+  target-types:
+    - type: MPS2_CM7_DP
+      device: CMSDK_CM7_DP
+      optimize: speed
+      misc:
+        - C:
+          - -DCMSDK_CM7_DP
+        - CPP:
+          - -DCMSDK_CM7_DP
+
+  projects:
+    - project: proj_core/core.cproject.yml
+    - project: proj_cjpeg-rose7-preset/cjpeg-rose7-preset.cproject.yml
+    - project: proj_linear_alg-mid-100x100-sp/linear_alg-mid-100x100-sp.cproject.yml
+    - project: proj_loops-all-mid-10k-sp/loops-all-mid-10k-sp.cproject.yml
+    - project: proj_nnet_test/nnet_test.cproject.yml
+    - project: proj_parser-125k/parser-125k.cproject.yml
+    - project: proj_radix2-big-64k/radix2-big-64k.cproject.yml
+    - project: proj_sha-test/sha-test.cproject.yml
+    # zip-test cannot be compiled with IAR toolchain because it is based on K&R C
+    #- project: proj_zip-test/zip-test.cproject.yml
+    

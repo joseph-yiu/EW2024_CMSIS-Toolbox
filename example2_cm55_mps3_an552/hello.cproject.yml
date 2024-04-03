@@ -1,0 +1,34 @@
+project:
+  packs:
+    - pack: ARM::CMSIS@6.0.0                # CMSIS-CORE  Note:version specifier is optional
+    - pack: ARM::V2M_MPS3_SSE_300_BSP@1.5.0 # Board support package for AN552 FPGA image
+    - pack: ARM::CMSIS-Compiler             # CMSIS-Compiler for printf
+
+  groups:
+    - group: Documentation
+      files: 
+        - file: ./README.md
+    - group: App
+      files:
+        - file: hello.c
+        - file: uart_funcs.c
+
+  components:
+    - component: ARM::CMSIS:CORE                   # CMSIS
+    - component: ARM::Device:Startup&C Startup     # Device startup
+    - component: ARM::Device:Definition            # Device driver
+    - component: ARM::Device:Native Driver:IO            # Device driver
+    - component: ARM::Device:Native Driver:SysCounter    # Device driver
+    - component: ARM::Device:Native Driver:SysTimer      # Device driver
+    - component: ARM::Device:Native Driver:Timeout       # Device driver
+    - component: ARM::Device:Native Driver:UART          # Device driver
+    - component: ARM::CMSIS-Compiler:CORE          # CMSIS-Compiler CORE
+    - component: ARM::CMSIS-Compiler:STDOUT:Custom # Custom STDOUT
+
+  # The memory descriptions in the SSE-300 CMSIS-PACK (.pdsc file) contains 
+  # multiple RAM regions. To ensure the right RAM region is used by the IAR 
+  # toolchain instead of the first available RAM region (i.e. I-TCM), a 
+  # linker script is used.
+  linker:
+    - script: linker_scripts/iar_linker_script.icf
+      for-compiler: IAR

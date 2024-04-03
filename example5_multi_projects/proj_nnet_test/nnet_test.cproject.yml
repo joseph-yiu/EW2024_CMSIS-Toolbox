@@ -1,0 +1,21 @@
+project:
+  description: CoreMark-Pro nnet-test project files
+
+  groups:
+    - group: core
+      files:
+        - file: ../externals/coremark-pro/benchmarks/fp/nnet/nnet.c
+        - file: ../externals/coremark-pro/benchmarks/fp/nnet/ref/1letter.c
+        - file: ../externals/coremark-pro/benchmarks/fp/nnet/ref/letters.c
+        - file: ../externals/coremark-pro/workloads/nnet_test/nnet_test.c
+
+  define:
+    - USE_FP32: 0
+    - USE_FP64: 1
+    - NO_VAR_ALIGN
+
+  layers:
+    - layer: ../coremark-pro_common.clayer.yml
+    - layer: ../mps2_cmx_platform.clayer.yml
+    - layer: toolchains_setup.clayer.yml
+ 

@@ -1,0 +1,26 @@
+project:
+  description: CoreMark-Pro loops-all-mid-10k-sp project files
+
+  groups:
+    - group: core
+      files:
+        - file: ../externals/coremark-pro/benchmarks/fp/loops/loops.c
+        - file: ../externals/coremark-pro/benchmarks/fp/loops/ref-sp/100.c
+        - file: ../externals/coremark-pro/benchmarks/fp/loops/ref-sp/100k.c
+        - file: ../externals/coremark-pro/benchmarks/fp/loops/ref-sp/100kdot.c
+        - file: ../externals/coremark-pro/benchmarks/fp/loops/ref-sp/10k.c
+        - file: ../externals/coremark-pro/benchmarks/fp/loops/ref-sp/10kdot.c
+        - file: ../externals/coremark-pro/benchmarks/fp/loops/ref-sp/1k.c
+        - file: ../externals/coremark-pro/benchmarks/fp/loops/ref-sp/1kdot.c
+        - file: ../externals/coremark-pro/benchmarks/fp/loops/ref-sp/32.c
+        - file: ../externals/coremark-pro/workloads/loops-all-mid-10k-sp/loops-all-mid-10k-sp.c
+
+  define:
+    - USE_FP32: 1
+    - USE_FP64: 0
+
+  layers:
+    - layer: ../coremark-pro_common.clayer.yml
+    - layer: ../mps2_cmx_platform.clayer.yml
+    - layer: toolchains_setup.clayer.yml
+ 

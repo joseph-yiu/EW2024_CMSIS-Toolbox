@@ -1,0 +1,45 @@
+
+define memory mem with size = 4G;
+
+  define region ROM0_region = mem:[from 0x00000000 to (0x00000000+0x00400000-1)];
+
+  define region ROM1_region = [];
+
+  define region ROM2_region = [];
+
+  define region ROM3_region = [];
+
+define region ROM_region = ROM0_region |  ROM1_region | ROM2_region | ROM3_region;
+
+  define region RAM0_region = mem:[from 0x20000000 to (0x20000000+0x00400000-1)];
+
+  define region RAM1_region = [];
+
+  define region RAM2_region = [];
+
+  define region RAM3_region = [];
+
+define region RAM_region = RAM0_region | RAM1_region | RAM2_region | RAM3_region;
+
+do not initialize  { section .noinit };
+initialize by copy { readwrite };
+if (isdefinedsymbol(__USE_DLIB_PERTHREAD))
+{
+  
+  initialize by copy with packing = none { section __DLIB_PERTHREAD };
+}
+
+place at address mem:0x00000000 { readonly section .intvec };
+
+if (!isempty(ROM_region))
+{
+  place in ROM_region  { readonly };
+}
+
+if (!isempty(RAM_region))
+{
+  define block CSTACK     with alignment = 8, size = 0x00004000     { };
+  define block PROC_STACK with alignment = 8, size = 0 { };
+  define block HEAP       with alignment = 8, size = 0x00020000       { };
+  place in RAM_region  { readwrite, block CSTACK, block PROC_STACK, block HEAP };
+}

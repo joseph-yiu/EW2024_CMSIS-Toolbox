@@ -1,0 +1,25 @@
+layer:
+  description: Hardware support layer for Cortex-M on MPS2 FPGA
+
+  packs:
+    - pack: ARM::CMSIS                      # Note:version specifier is optional
+    - pack: Keil::V2M-MPS2_CMx_BSP          # Note:version specifier is optional
+    - pack: Keil::MDK-Middleware            # Need by the LED component
+    - pack: Keil::MDK-Middleware_Graphics   # Need by the MDK-Middleware pack
+    - pack: ARM::CMSIS-Compiler             # CMSIS-Compiler for printf
+
+  components:
+    - component: ARM::CMSIS:CORE                   # CMSIS
+    - component: Keil::Device:Startup&C Startup    # Device startup
+    - component: ARM::CMSIS-Compiler:CORE          # CMSIS-Compiler CORE
+    - component: ARM::CMSIS-Compiler:STDOUT:Custom # Custom STDOUT
+    - component: ARM::CMSIS-Compiler:STDERR:Custom # Custom STDERR
+    - component: ARM::CMSIS-Compiler:STDIN:Custom  # Custom STDIN
+    - component: Keil::Board Support&V2M-MPS2:LED  # LED component
+
+  groups:
+    - group: hardware_support
+      files:
+        - file: timer_funcs.c
+        - file: uart_funcs.c
+          

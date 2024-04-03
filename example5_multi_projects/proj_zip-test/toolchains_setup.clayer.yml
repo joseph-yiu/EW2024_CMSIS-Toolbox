@@ -1,0 +1,106 @@
+layer:
+  description: tool setup
+
+  misc:
+        - for-compiler: AC6
+          C:
+            - -std=c99
+            - -Omax
+          C-CPP:
+            - -Omax
+            - -fno-rtti
+            - -funsigned-char
+            - -fshort-enums
+            - -fshort-wchar
+            - -ffast-math
+            - -ffunction-sections
+            - -Weverything
+            - -Wno-packed
+            - -Wno-reserved-id-macro
+            - -Wno-unused-macros
+            - -Wno-documentation-unknown-command
+            - -Wno-documentation
+            - -Wno-license-management
+            - -Wno-parentheses-equality
+            - -Wno-implicit-function-declaration
+          CPP:
+            - -xc++
+            - -std=c++98
+          ASM:
+            - -masm=auto
+          Link:
+            - --map
+            - --load_addr_map_info
+            - --xref
+            - --callgraph
+            - --symbols
+            - --info sizes
+            - --info totals
+            - --info unused
+            - --info veneers
+            - --lto
+            - -Omax
+            - --strict
+            - --summary_stderr
+            - --info summarysizes
+        - for-compiler: GCC
+          C:
+            - -Ofast
+            - -ffast-math
+            - -std=gnu11
+            - -funroll-loops
+            - -finline-functions
+            - --param max-inline-insns-auto=200
+            - -falign-functions=4
+            - -falign-jumps=4
+            - -falign-loops=4
+            - -fomit-frame-pointer
+            - -funroll-all-loops
+            - -finline-limit=10000
+            - -ftree-dominator-opts
+            - -fno-if-conversion2
+            - -fselective-scheduling
+            - -fno-code-hoisting
+          Link:
+            #- --specs=nano.specs
+            #- --specs=rdimon.specs
+            - -Wl,-Map=$elf()$.map
+        - for-compiler: CLANG
+          C:
+            - -std=gnu11
+            - -Ofast
+            - -ffast-math
+            - -Wno-implicit-function-declaration
+          Link:
+            #- -lcrt0-semihost
+            #- -lsemihost
+            - -Wl,-Map=$elf()$.map
+          Library:
+            - -lm
+        - for-compiler: IAR
+          C-CPP:
+            #- -Ohs  # This is commented out because target-types in the 
+            #        # csolution file already contains "optimize: speed"
+            #        # If both are used, the compiler will complaint.
+            - --no_size_constraints
+            - --dlib_config DLib_Config_Full.h
+          Link:
+            - --semihosting
+            - --map=$elf()$.map
+  
+
+  linker:
+    - script: linker_scripts/ac6_arm.sct
+      for-compiler: AC6
+
+    - script: linker_scripts/clang_linker_script.ld
+      for-compiler: CLANG
+
+    - script: linker_scripts/gcc_arm.ld
+      for-compiler: GCC
+
+    - script: linker_scripts/iar_linker_script.icf
+      for-compiler: IAR
+
+    - regions: linker_scripts/regions_CMSDK_CMx.h
+      for-compiler: CLANG

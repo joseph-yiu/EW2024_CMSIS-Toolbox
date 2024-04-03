@@ -1,0 +1,19 @@
+project:
+  description: CoreMark-Pro linear_alg-mid-100x100-sp project files
+
+  groups:
+    - group: core
+      files:
+        - file: ../externals/coremark-pro/benchmarks/fp/linpack/linpack.c
+        - file: ../externals/coremark-pro/benchmarks/fp/linpack/ref/inputs_f32.c
+        - file: ../externals/coremark-pro/workloads/linear_alg-mid-100x100-sp/linear_alg-mid-100x100-sp.c
+
+  define:
+    - USE_FP32: 1
+    - USE_FP64: 0
+
+  layers:
+    - layer: ../coremark-pro_common.clayer.yml
+    - layer: ../mps2_cmx_platform.clayer.yml
+    - layer: toolchains_setup.clayer.yml
+ 

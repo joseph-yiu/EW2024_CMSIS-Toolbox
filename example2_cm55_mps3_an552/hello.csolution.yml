@@ -1,0 +1,17 @@
+solution:
+  created-for: CMSIS-Toolbox@2.0.0
+  description: hello
+  cdefault:
+  # Default compiler - can be AC6, CLANG, GCC, IAR. 
+  # This can be overridden using command line option.
+  compiler: CLANG
+
+  target-types:
+    - type: MPS3-Corstone-300
+      device: SSE-300-MPS3
+
+  output-dirs:
+    outdir: ./out/$TargetType$/
+
+  projects:
+    - project: ./hello.cproject.yml

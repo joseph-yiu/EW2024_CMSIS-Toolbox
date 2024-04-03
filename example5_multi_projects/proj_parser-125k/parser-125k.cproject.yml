@@ -1,0 +1,22 @@
+project:
+  description: CoreMark-Pro parser-125k project files
+
+  groups:
+    - group: core
+      files:
+        - file: ../externals/coremark-pro/benchmarks/darkmark/parser/ezxml.c
+        - file: ../externals/coremark-pro/benchmarks/darkmark/parser/parser.c
+        - file: ../externals/coremark-pro/workloads/parser-125k/parser-125k.c
+
+  add-path:
+    - ../externals/coremark-pro/benchmarks/darkmark/parser/
+
+  define:
+    - USE_FP32: 1
+    - USE_FP64: 0
+
+  layers:
+    - layer: ../coremark-pro_common.clayer.yml
+    - layer: ../mps2_cmx_platform.clayer.yml
+    - layer: toolchains_setup.clayer.yml
+ 

@@ -1,0 +1,23 @@
+solution:
+  created-for: CMSIS-Toolbox@2.0.0
+  description: hello
+  cdefault:
+  # Default compiler - can be AC6, CLANG, GCC, IAR. 
+  # This can be overridden using command line option.
+  compiler: CLANG
+
+  target-types:
+    - type: MPS2_CM4_FP
+      device: CMSDK_CM4_FP   # or ARM::CMSDK_CM4_FP
+      optimize: speed
+      misc:
+        - C:
+          - -DCMSDK_CM4_FP
+        - CPP:
+          - -DCMSDK_CM4_FP
+
+  output-dirs:
+    outdir: ./out/$TargetType$/
+
+  projects:
+    - project: ./coremark.cproject.yml

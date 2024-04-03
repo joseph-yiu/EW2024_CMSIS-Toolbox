@@ -1,0 +1,24 @@
+project:
+  description: CoreMark-Pro radix2-big-64k project files
+
+  groups:
+    - group: core
+      files:
+        - file: ../externals/coremark-pro/benchmarks/fp/fft_radix2/fft_radix2.c
+        - file: ../externals/coremark-pro/benchmarks/fp/fft_radix2/ref/2K.c
+        - file: ../externals/coremark-pro/benchmarks/fp/fft_radix2/ref/32K.c
+        - file: ../externals/coremark-pro/benchmarks/fp/fft_radix2/ref/4K.c
+        - file: ../externals/coremark-pro/benchmarks/fp/fft_radix2/ref/data3_big.c
+        - file: ../externals/coremark-pro/benchmarks/fp/fft_radix2/ref/data4_mid.c
+        - file: ../externals/coremark-pro/benchmarks/fp/fft_radix2/ref/data5_small.c
+        - file: ../externals/coremark-pro/workloads/radix2-big-64k/radix2-big-64k.c
+
+  define:
+    - USE_FP32: 0
+    - USE_FP64: 1
+
+  layers:
+    - layer: ../coremark-pro_common.clayer.yml
+    - layer: ../mps2_cmx_platform.clayer.yml
+    - layer: toolchains_setup.clayer.yml
+ 

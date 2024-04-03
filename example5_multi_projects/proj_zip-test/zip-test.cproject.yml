@@ -1,0 +1,37 @@
+project:
+  description: CoreMark-Pro sha-test project files
+
+  groups:
+    - group: core
+      files:
+        - file: ../externals/coremark-pro/benchmarks/darkmark/zip/zip_darkmark.c
+        - file: ../externals/coremark-pro/benchmarks/darkmark/zip/zlib-1.2.8/compress.c
+        - file: ../externals/coremark-pro/benchmarks/darkmark/zip/zlib-1.2.8/uncompr.c
+        - file: ../externals/coremark-pro/benchmarks/darkmark/zip/zlib-1.2.8/deflate.c
+        - file: ../externals/coremark-pro/benchmarks/darkmark/zip/zlib-1.2.8/inflate.c
+        - file: ../externals/coremark-pro/benchmarks/darkmark/zip/zlib-1.2.8/crc32.c
+        - file: ../externals/coremark-pro/benchmarks/darkmark/zip/zlib-1.2.8/adler32.c
+        - file: ../externals/coremark-pro/benchmarks/darkmark/zip/zlib-1.2.8/infback.c
+        - file: ../externals/coremark-pro/benchmarks/darkmark/zip/zlib-1.2.8/inffast.c
+        - file: ../externals/coremark-pro/benchmarks/darkmark/zip/zlib-1.2.8/inftrees.c
+        - file: ../externals/coremark-pro/benchmarks/darkmark/zip/zlib-1.2.8/trees.c
+        - file: ../externals/coremark-pro/benchmarks/darkmark/zip/zlib-1.2.8/zutil.c
+        - file: ../externals/coremark-pro/benchmarks/darkmark/zip/zlib-1.2.8/gzclose.c
+        - file: ../externals/coremark-pro/benchmarks/darkmark/zip/zlib-1.2.8/gzlib.c
+        - file: ../externals/coremark-pro/workloads/zip-test/zip-test.c
+
+  add-path:
+    - ../externals/coremark-pro/benchmarks/darkmark/zip/zlib-1.2.8/
+
+  define:
+    - USE_FP32: 1
+    - USE_FP64: 0
+    - MITH_MEMORY_ONLY_VERSION
+    - ZLIB_COMPAT_ALL
+    - ZLIB_ANSI
+
+  layers:
+    - layer: ../coremark-pro_common.clayer.yml
+    - layer: ../mps2_cmx_platform.clayer.yml
+    - layer: toolchains_setup.clayer.yml
+ 

@@ -1,0 +1,53 @@
+layer:
+  description: CoreMark-Pro common files
+
+
+  
+  groups:
+    - group: Documentation
+      files: 
+        - file: ./README.md
+
+    - group: mith
+      files: 
+        - file: externals/coremark-pro/mith/src/mith_lib.c
+        - file: externals/coremark-pro/mith/src/mith_workload.c
+        - file: externals/coremark-pro/mith/src/th_bignum.c
+        - file: externals/coremark-pro/mith/src/th_encode.c
+        - file: externals/coremark-pro/mith/src/th_lib.c
+        - file: externals/coremark-pro/mith/src/th_rand.c
+        - file: externals/coremark-pro/mith/al/src/al_file.c
+        - file: externals/coremark-pro/mith/al/src/al_single.c
+        - file: externals/coremark-pro/mith/al/src/al_smp.c
+        - file: th_al.c
+
+    - group: dummy
+      for-compiler: CLANG
+      files:
+        - file: dummy_fileio.c
+      # Dummy file I/O functions needed by parser-125k and zip-tests
+      # These functions are referenced by PicoLIB (not by CoreMark-Pro)
+
+
+  add-path:
+    - externals/coremark-pro/mith/include
+    - externals/coremark-pro/mith/al/include
+
+  define:
+    - HOST_EXAMPLE_CODE: 0
+    - STUB_STAT: 1
+    - NO_ALIGNED_ALLOC: 1
+    - USE_CLOCK: 1
+    # For the following options, instead of defining here, 
+    # they could be hardcoded to th_cfg.h instead
+    - FAKE_FILEIO: 1
+    - HAVE_FILEIO: 1
+    - HAVE_SYS_STAT_H: 0
+    - HAVE_PTHREAD: 0
+    - USE_NATIVE_PTHREAD: 0
+    - USE_SINGLE_CONTEXT: 1
+    - HAVE_STRDUP: 0
+    - HAVE_F128: 0
+    # PERFORMANCE_RUN (verify_output=0) or VALIDATION_RUN (verify_output=1)
+    #- PERFORMANCE_RUN: 1
+

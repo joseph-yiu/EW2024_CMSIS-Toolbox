@@ -1,0 +1,9 @@
+[submodule "example3_cm4_mps2_an386/externals/coremark"]
+	path = example3_cm4_mps2_an386/externals/coremark
+	url = https://github.com/eembc/coremark
+[submodule "example4_mps2_multi_devices/externals/coremark"]
+	path = example4_mps2_multi_devices/externals/coremark
+	url = https://github.com/eembc/coremark
+[submodule "example5_multi_projects/externals/coremark-pro"]
+	path = example5_multi_projects/externals/coremark-pro
+	url = https://github.com/eembc/coremark-pro

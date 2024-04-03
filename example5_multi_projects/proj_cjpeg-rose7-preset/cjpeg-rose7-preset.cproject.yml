@@ -1,0 +1,50 @@
+project:
+  description: CoreMark-Pro cjpeg-rose7-preset project files
+
+  groups:
+    - group: cjpeg-rose7-preset
+      files:
+        - file: ../externals/coremark-pro/benchmarks/consumer_v2/cjpeg/bmark_lite.c
+        - file: ../externals/coremark-pro/benchmarks/consumer_v2/cjpeg/bm_lib.c
+        - file: ../externals/coremark-pro/benchmarks/consumer_v2/cjpeg/cdjpeg.c
+        - file: ../externals/coremark-pro/benchmarks/consumer_v2/cjpeg/cjpeg.c
+        - file: ../externals/coremark-pro/benchmarks/consumer_v2/cjpeg/filedata.c
+        - file: ../externals/coremark-pro/benchmarks/consumer_v2/cjpeg/jcapimin.c
+        - file: ../externals/coremark-pro/benchmarks/consumer_v2/cjpeg/jcapistd.c
+        - file: ../externals/coremark-pro/benchmarks/consumer_v2/cjpeg/jccoefct.c
+        - file: ../externals/coremark-pro/benchmarks/consumer_v2/cjpeg/jccolor.c
+        - file: ../externals/coremark-pro/benchmarks/consumer_v2/cjpeg/jcdctmgr.c
+        - file: ../externals/coremark-pro/benchmarks/consumer_v2/cjpeg/jchuff.c
+        - file: ../externals/coremark-pro/benchmarks/consumer_v2/cjpeg/jcinit.c
+        - file: ../externals/coremark-pro/benchmarks/consumer_v2/cjpeg/jcmainct.c
+        - file: ../externals/coremark-pro/benchmarks/consumer_v2/cjpeg/jcmarker.c
+        - file: ../externals/coremark-pro/benchmarks/consumer_v2/cjpeg/jcmaster.c
+        - file: ../externals/coremark-pro/benchmarks/consumer_v2/cjpeg/jcomapi.c
+        - file: ../externals/coremark-pro/benchmarks/consumer_v2/cjpeg/jcparam.c
+        - file: ../externals/coremark-pro/benchmarks/consumer_v2/cjpeg/jcprepct.c
+        - file: ../externals/coremark-pro/benchmarks/consumer_v2/cjpeg/jcsample.c
+        - file: ../externals/coremark-pro/benchmarks/consumer_v2/cjpeg/jdatadst.c
+        - file: ../externals/coremark-pro/benchmarks/consumer_v2/cjpeg/jerror.c
+        - file: ../externals/coremark-pro/benchmarks/consumer_v2/cjpeg/jfdctint.c
+        - file: ../externals/coremark-pro/benchmarks/consumer_v2/cjpeg/jmemansi.c
+        - file: ../externals/coremark-pro/benchmarks/consumer_v2/cjpeg/jmemmgr.c
+        - file: ../externals/coremark-pro/benchmarks/consumer_v2/cjpeg/jutils.c
+        - file: ../externals/coremark-pro/benchmarks/consumer_v2/cjpeg/rdbmp.c
+        - file: ../externals/coremark-pro/benchmarks/consumer_v2/cjpeg/data/Rose256_bmp.c
+        - file: ../externals/coremark-pro/workloads/cjpeg-rose7-preset/cjpeg-rose7-preset.c
+
+  add-path:
+    - ../externals/coremark-pro/benchmarks/consumer_v2/cjpeg
+    - ../externals/coremark-pro/benchmarks/consumer_v2/cjpeg/data
+
+  define:
+    - USE_FP32: 1
+    - USE_FP64: 0
+    - USE_PRESET: 1
+    - SELECT_PRESET_ID: 1
+  
+  layers:
+    - layer: ../coremark-pro_common.clayer.yml
+    - layer: ../mps2_cmx_platform.clayer.yml
+    - layer: toolchains_setup.clayer.yml
+ 

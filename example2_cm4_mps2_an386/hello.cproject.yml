@@ -1,0 +1,30 @@
+project:
+  packs:
+    - pack: ARM::CMSIS                     # Note:version specifier is optional
+    - pack: Keil::V2M-MPS2_CMx_BSP         # Note:version specifier is optional
+    - pack: Keil::MDK-Middleware           # Need by the LED component
+    - pack: Keil::MDK-Middleware_Graphics  # Need by the MDK-Middleware pack
+    - pack: ARM::CMSIS-Compiler            # CMSIS-Compiler for printf
+
+  groups:
+    - group: Documentation
+      files: 
+        - file: ./README.md
+    - group: App
+      files:
+        - file: hello.c
+        - file: uart_funcs.c
+  components:
+    - component: ARM::CMSIS:CORE                   # CMSIS
+    - component: Keil::Device:Startup&C Startup    # Device startup
+    - component: Keil::Board Support&V2M-MPS2:LED  # LED component
+    - component: ARM::CMSIS-Compiler:CORE          # CMSIS-Compiler CORE
+    - component: ARM::CMSIS-Compiler:STDOUT:Custom # Custom STDOUT
+
+# Short form - vendor selected from available packs
+#  components:
+#    - component: CMSIS:CORE                  # CMSIS
+#    - component: Device:Startup&C Startup    # Device startup
+#    - component: Board Support&V2M-MPS2:LED  # LED component
+#    - component: CMSIS-Compiler:CORE
+#    - component: CMSIS-Compiler:STDOUT:Custom
