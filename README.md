@@ -82,6 +82,9 @@ In each of the example directories, there is a makefile and a batch file to help
 - Before using the makefile, you can edit the file to update the TOOLCHAIN setting based on your preference. Alternatively you can override the TOOLCHAIN setting when involving make in the command line.
 - Before using the batch file, please edit the TOOLCHAIN setting based on your preference.
 
+The file [vcpkg-configuration.json](./vcpkg-configuration.json) is for Arm Keil Studio Pack to download toolchains.
+More information about Arm Keil Studio Pack can be found [here](https://marketplace.visualstudio.com/items?itemName=Arm.keil-studio-pack).
+
 ## Limitations
 
 Please note that the examples currently have the following limitations:
@@ -92,5 +95,5 @@ Please note that the examples currently have the following limitations:
 
 ## Disclaimers
 
-- CoreMark and CoreMark-Pro are benchmarks from SPEC Embedded Group (formerly EEMBC) and are not properties of Arm.
+- CoreMark and CoreMark-Pro are benchmarks from SPEC® Embedded Group (formerly EEMBC®) and are not properties of Arm.
 - The compilation options for CoreMark and CoreMark-Pro used in these examples have not been tested for best performance.
