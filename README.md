@@ -3,7 +3,7 @@
 This repository contains examples for Embedded World 2024 paper:
   [**Simplifying the integration of software components in modern microcontroller systems**](paper.md)
 
-The examples can work with two FPGA platforms from Arm:
+The examples can work with two FPGA platforms from Arm®:
 
 - Arm MPS2/MPS2+ FPGA
 - Arm MPS3 FPGA (With Cortex-M55 FPGA image AN552 and fewer number of examples)
@@ -12,7 +12,7 @@ The examples can work with two FPGA platforms from Arm:
 
 This repository contains the following external submodules:
 
-- SPEC's CoreMark (https://github.com/eembc/cormark)
+- SPEC®'s CoreMark (https://github.com/eembc/cormark)
   - License details for CoreMark is available in https://github.com/eembc/coremark/blob/main/LICENSE.md
   - For more information about CoreMark, please visit https://www.eembc.org/coremark/
 - SPEC's CoreMark-Pro (https://github.com/eembc/cormark-pro)
@@ -84,6 +84,8 @@ In each of the example directories, there is a makefile and a batch file to help
 
 The file [vcpkg-configuration.json](./vcpkg-configuration.json) is for Arm Keil Studio Pack to download toolchains.
 More information about Arm Keil Studio Pack can be found [here](https://marketplace.visualstudio.com/items?itemName=Arm.keil-studio-pack).
+
+Arm Tools available in vcpkg can be found [here](https://www.keil.arm.com/artifacts/).
 
 ## Limitations
 
