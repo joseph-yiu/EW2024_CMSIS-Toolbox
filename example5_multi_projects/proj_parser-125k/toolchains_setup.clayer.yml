@@ -60,7 +60,8 @@ layer:
             - -ftree-dominator-opts
             - -fno-if-conversion2
             - -fselective-scheduling
-            - -fno-code-hoisting          Link:
+            - -fno-code-hoisting
+          Link:
             #- --specs=nano.specs
             #- --specs=rdimon.specs
             - -Wl,-Map=$elf()$.map
