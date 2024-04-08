@@ -91,6 +91,7 @@ Arm Tools available in vcpkg can be found [here](https://www.keil.arm.com/artifa
 
 Please note that the examples currently have the following limitations:
 
+- When using the makefiles the first time to download CMSIS-PACK, the tool might report an error after downloading the pack and stop. This is because some of the packs are not aware of CMSIS-CORE in the CMSIS version 6. However, the projects are compatible with CMSIS 6 and you can ignore the error(s) and just rerun the make to compile the projects. 
 - One of the tests in CoreMark-Pro (Zip-test) in Example 5 contains C source file that is not compatible to modern C standard and therefore cannot be compiled with IAR toolchain. As a result this test is disabled.
 - When using IAR EWARM debugger with Cortex-M55/Cortex-M85 FPGA, please select JTAG debug protocol and the connection speed need to be set to 24MHz or lower.
 - The makefiles have not been tested with IAR Build Tools for Arm. However, the projects have been tested with IAR EWARM toolchain.
