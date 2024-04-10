@@ -14,5 +14,5 @@
     "arm:tools/open-cmsis-pack/cmsis-toolbox": "^2.3.0",
     "arm:tools/ninja-build/ninja": "^1.11.1",
     "arm:tools/kitware/cmake": "^3.25.2"
-	}
+  }
 }
