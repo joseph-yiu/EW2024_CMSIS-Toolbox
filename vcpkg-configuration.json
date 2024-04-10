@@ -12,6 +12,7 @@
 		"arm:compilers/arm/llvm-embedded": "^17.0.1",
 		"arm:debuggers/arm/armdbg": "^6.1.1",
 		"arm:tools/open-cmsis-pack/cmsis-toolbox": "^2.3.0",
-		"arm:tools/ninja-build/ninja": "^1.11.1"
+		"arm:tools/ninja-build/ninja": "^1.11.1",
+   	"arm:tools/kitware/cmake": "^3.25.2"
 	}
 }
