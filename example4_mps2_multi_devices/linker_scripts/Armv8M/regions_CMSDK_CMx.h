@@ -34,7 +34,7 @@
 //   <o> Base address <0x0-0xFFFFFFFF:8>
 //   <i> Defines base address of memory region.
 //   <i> Default: 0x30000000
-#define __RAM0_BASE 0x30000000
+#define __RAM0_BASE 0x38000000
 //   <o> Region size [bytes] <0x0-0xFFFFFFFF:8>
 //   <i> Defines size of memory region.
 //   <i> Default: 0x00400000

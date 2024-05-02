@@ -11,7 +11,7 @@ define memory mem with size = 4G;
 
 define region ROM_region = ROM0_region |  ROM1_region | ROM2_region | ROM3_region;
 
-  define region RAM0_region = mem:[from 0x30000000 to (0x30000000+0x00400000-1)];
+  define region RAM0_region = mem:[from 0x38000000 to (0x38000000+0x00400000-1)];
 
   define region RAM1_region = [];
 
