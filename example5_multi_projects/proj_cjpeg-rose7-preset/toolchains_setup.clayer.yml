@@ -71,6 +71,9 @@ layer:
             - -std=gnu11
             - -Ofast
             - -ffast-math
+            - -mllvm=-enable-dfa-jump-thread 
+            - -mllvm=-inline-threshold=500
+            - -mllvm=-unroll-threshold=450
           Link:
             #- -lcrt0-semihost
             #- -lsemihost

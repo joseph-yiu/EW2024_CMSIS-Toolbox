@@ -71,6 +71,9 @@ layer:
             - -Ofast
             - -ffast-math
             - -Wno-implicit-function-declaration
+            - -mllvm=-enable-dfa-jump-thread 
+            - -mllvm=-inline-threshold=500
+            - -mllvm=-unroll-threshold=450
           Link:
             #- -lcrt0-semihost
             #- -lsemihost
