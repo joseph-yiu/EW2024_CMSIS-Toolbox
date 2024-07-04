@@ -27,7 +27,7 @@ cpackget update-index
 Note: Not required for a new installation and usually this is not needed. But if the local CMSIS-Pack storage hasn't been used for a while, it worth running it to ensure the index is up-to-date.
 ```
 /* Step 2: Generate the list of missing packs */
-csolution list packs -s coremark.csolution.yml -m > required_packs.txt
+csolution list packs coremark.csolution.yml -m > required_packs.txt
 ```
 ```
 /* Step 3: Install missing packs */
@@ -36,7 +36,7 @@ cpackget add -f required_packs.txt
 
 ```
 /* Step 4: Generate build information */
-csolution convert -s coremark.csolution.yml
+csolution convert coremark.csolution.yml update-rte
 ```
 
 ```
@@ -46,6 +46,17 @@ cbuild coremark+MPS2_CM4_FP.cprj
 Note: For AC6 only - Instead of using cbuild, you can use an IDE such as Keil MDK to compile the generated project.
 
 Note: For IAR only - Instead of running step 4 and step 5, you can import csolution project in EWARM to compile the project.
+
+Alternatively, step 2 to step 5 can be shortened as one step:
+```
+/* Step 2: Download packs and compile the project in one go */
+cbuild coremark.csolution.yml --packs --update-rte
+```
+You can also override the toolchain choice (the following example use AC6, but it can also be GCC, CLANG or IAR):
+```
+/* Step 2: Download packs and compile the project in one go */
+cbuild coremark.csolution.yml --packs --update-rte --toolchain AC6
+```
 
 ## Disclaimers
 

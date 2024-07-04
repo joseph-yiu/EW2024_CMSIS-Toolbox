@@ -29,7 +29,7 @@ Note: Not required for a new installation and usually this is not needed. But if
 
 ```
 /* Step 2: Generate the list of missing packs */
-csolution list packs -s coremark-pro.csolution.yml -m > required_packs.txt
+csolution list packs coremark-pro.csolution.yml -m > required_packs.txt
 ```
 
 ```
@@ -39,7 +39,7 @@ cpackget add -f required_packs.txt
 
 ```
 /* Step 4: Generate build information */
-csolution convert -s coremark-pro.csolution.yml
+csolution convert coremark-pro.csolution.yml update-rte
 ```
 
 ```
@@ -48,6 +48,17 @@ cbuild proj_{project_name}/{project_name}+MPS2_CM7_DP.cprj
 ```
 
 Note: For IAR only - Instead of running step 4 and step 5, you can import csolution project in EWARM to compile the project.
+
+Alternatively, step 2 to step 5 can be shortened as one step:
+```
+/* Step 2: Download packs and compile the project in one go */
+cbuild coremark-pro.csolution.yml --packs --update-rte
+```
+You can also override the toolchain choice (the following example use AC6, but it can also be GCC, CLANG or IAR):
+```
+/* Step 2: Download packs and compile the project in one go */
+cbuild coremark-pro.csolution.yml --packs --update-rte --toolchain AC6
+```
 
 ## Disclaimers
 

@@ -41,7 +41,7 @@ cpackget update-index
 Note: Not required for a new installation and usually this is not needed. But if the local CMSIS-Pack storage hasn't been used for a while, it worth running it to ensure the index is up-to-date.
 ```
 /* Step 2: Generate the list of missing packs */
-csolution list packs -s coremark.csolution.yml -m > required_packs.txt
+csolution list packs coremark.csolution.yml -m > required_packs.txt
 ```
 
 ```
@@ -51,7 +51,7 @@ cpackget add -f required_packs.txt
 
 ```
 /* Step 4: Generate build information */
-csolution convert -s coremark.csolution.yml
+csolution convert coremark.csolution.yml update-rte
 ```
 
 ```
