@@ -33,11 +33,11 @@
   #define CPU_CLK_SPEED 20000000
 #elif defined (IOTKit_CM33)
   #include "IOTKit_CM33.h"
-  //#define USE_DWT_CYCLE_COUNTER
+  #define USE_DWT_CYCLE_COUNTER
   #define CPU_CLK_SPEED 20000000
 #elif defined (IOTKit_CM33_FP)
   #include "IOTKit_CM33_FP.h"
-  //#define USE_DWT_CYCLE_COUNTER
+  #define USE_DWT_CYCLE_COUNTER
   #define CPU_CLK_SPEED 20000000
 #elif defined (SSE300_CM55)
   #include "SSE300MPS3.h"
