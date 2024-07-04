@@ -301,10 +301,16 @@ Step 4 - Generate build information.
 $> csolution convert blink.csolution.yml
 ```
 
+Sometimes you need to update header files in the Run-Time Environment by adding the update-rte option:
+
+```
+$> csolution convert blink.csolution.yml update-rte
+```
+
 Optionally, you can specify a toolchain instead of using the default toolchain listed in the csolution file:
 
 ```
-$> csolution convert blink.csolution.yml --toolchain {AC6/GCC/CLANG/IAR}
+$> csolution convert blink.csolution.yml update-rte --toolchain {AC6/GCC/CLANG/IAR}
 ```
 
 Step 5 – Run the compilation flow (Note: MPS2_CM4 below is the context identifier/type in the csolution file)
@@ -317,6 +323,12 @@ Optionally, you can specify a toolchain instead of using the default toolchain l
 
 ```
 $> cbuild blink+MPS2_CM4.cprj --toolchain  {AC6/GCC/CLANG/IAR}
+```
+
+Step 2 to step 5 can be combined into a single step:
+
+```
+$> cbuild blink.csolution.yml --packs --update-rte --toolchain  {AC6/GCC/CLANG/IAR}
 ```
 
 To make it easier going through the steps, a makefile (for Linux) and a batch file (for Windows) is prepared in the Github repository.
