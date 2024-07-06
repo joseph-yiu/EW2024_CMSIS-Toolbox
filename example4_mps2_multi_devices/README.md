@@ -58,12 +58,26 @@ csolution convert coremark.csolution.yml update-rte
 /* Step 5: Compile project with cbuild */
 cbuild coremark+<context_name>.cprj
 ```
+
 Note: <context_name> can be MPS2_CM0 / MPS2_CM0plus /
  MPS2_CM3 / MPS2_CM4 / MPS2_CM4_FP / MPS2_CM7 /
  MPS2_CM7_SP / MPS2_CM7_DP / MPS2_CM23 / MPS2_CM33 /
  MPS2_CM33_FP / MPS3-Corstone-300 / MPS3-Corstone-310
 
 Note: For IAR only - Instead of running step 4 and step 5, you can import csolution project in EWARM to compile the project.
+
+Alternatively, step 2 to step 5 can be shortened as one step:
+```
+/* Step 2: Download packs and compile the project in one go */
+cbuild coremark.csolution.yml --packs --update-rte
+```
+
+You can also override the toolchain choice (the following example use AC6, but it can also be GCC, CLANG or IAR):
+
+```
+/* Step 2: Download packs and compile the project in one go */
+cbuild coremark.csolution.yml --packs --update-rte --toolchain AC6
+```
 
 ## Disclaimers
 
