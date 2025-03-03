@@ -1,5 +1,5 @@
 # CMSIS-Toolbox Examples for Embedded World paper
-
+## !!! This repository is not actively maintained and is read-only !!! 
 This repository contains examples for Embedded World 2024 paper:
   [**Simplifying the integration of software components in modern microcontroller systems**](paper.md)
 
