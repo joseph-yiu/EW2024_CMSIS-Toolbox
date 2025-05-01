@@ -33,109 +33,84 @@ CSOLUTION_OPTIONS =
 CFG_UPDATE_RTE = 1
 
 ifeq ($(CFG_UPDATE_RTE),1)
-  CSOLUTION_OPTIONS += update-rte
+  CSOLUTION_OPTIONS += --update-rte
 endif
 
 # TOOLCHAIN = AC6/GCC/CLANG/IAR
 TOOLCHAIN = AC6
 
-all: step1 step2 step3 step4 step5 step6
+all: step1 step2 step3 
 
 ac6: AC6
 
 AC6:
 	cpackget update-index
-	csolution list packs -s $(CSOLUTION_FILE) -m > required_packs.txt
-	cpackget add -f required_packs.txt
-	csolution convert $(CSOLUTION_FILE) $(CSOLUTION_OPTIONS) --toolchain AC6
 	for this_hardware in $(HARDWARE_LIST) ; do \
-		cbuild $(PROJECT_NAME)+$$this_hardware.cprj --toolchain AC6 ;\
+		cbuild $(CSOLUTION_FILE) $(CSOLUTION_OPTIONS) --context $(PROJECT_NAME)+$$this_hardware --packs --toolchain AC6  ;\
 	done
-	make step6_AC6
+	make step3_AC6
 
 gcc: GCC
 
 GCC:
 	cpackget update-index
-	csolution list packs -s $(CSOLUTION_FILE) -m > required_packs.txt
-	cpackget add -f required_packs.txt
-	csolution convert $(CSOLUTION_FILE) $(CSOLUTION_OPTIONS) --toolchain GCC
 	for this_hardware in $(HARDWARE_LIST) ; do \
-		cbuild $(PROJECT_NAME)+$$this_hardware.cprj --toolchain GCC ;\
+		cbuild $(CSOLUTION_FILE) $(CSOLUTION_OPTIONS) --context $(PROJECT_NAME)+$$this_hardware --packs --toolchain GCC  ;\
 	done
-	make step6_GCC
+	make step3_GCC
 
 clang: CLANG
 
 CLANG:
 	cpackget update-index
-	csolution list packs -s $(CSOLUTION_FILE) -m > required_packs.txt
-	cpackget add -f required_packs.txt
-	csolution convert $(CSOLUTION_FILE) $(CSOLUTION_OPTIONS) --toolchain CLANG
 	for this_hardware in $(HARDWARE_LIST) ; do \
-		cbuild $(PROJECT_NAME)+$$this_hardware.cprj --toolchain CLANG ;\
+		cbuild $(CSOLUTION_FILE) $(CSOLUTION_OPTIONS) --context $(PROJECT_NAME)+$$this_hardware --packs --toolchain CLANG  ;\
 	done
-	make step6_CLANG
+	make step6=3_CLANG
 
 iar: IAR
 
 IAR:
 	cpackget update-index
-	csolution list packs -s $(CSOLUTION_FILE) -m > required_packs.txt
-	cpackget add -f required_packs.txt
-	csolution convert $(CSOLUTION_FILE) $(CSOLUTION_OPTIONS) --toolchain IAR
 	for this_hardware in $(HARDWARE_LIST) ; do \
-		cbuild $(PROJECT_NAME)+$$this_hardware.cprj --toolchain IAR ;\
+		cbuild $(CSOLUTION_FILE) $(CSOLUTION_OPTIONS) --context $(PROJECT_NAME)+$$this_hardware --packs --toolchain IAR  ;\
 	done
-	make step6_IAR
+	make step3_IAR
 
 step1:
 	# Optional. If local index file get outdated, you need to run this
 	cpackget update-index
 	
 step2:
-	# Identified if any CMSIS-PACK is missing
-	csolution list packs -s $(CSOLUTION_FILE) -m > required_packs.txt
-	cat required_packs.txt
-
-step3:
-	# Add missing CMSIS-PACK
-	cpackget add -f required_packs.txt
-
-step4:
-	# Generate build information files
-	csolution convert $(CSOLUTION_FILE) $(CSOLUTION_OPTIONS) --toolchain $(TOOLCHAIN)
-
-step5:
 	# Build project with Command Line Interface
 	for this_hardware in $(HARDWARE_LIST) ; do \
-		cbuild $(PROJECT_NAME)+$$this_hardware.cprj --toolchain $(TOOLCHAIN) ;\
+		cbuild $(CSOLUTION_FILE) $(CSOLUTION_OPTIONS) --context $(PROJECT_NAME)+$$this_hardware --packs --toolchain $(TOOLCHAIN)  ;\
 	done
 
-step6: step6_$(TOOLCHAIN)
+step3: step3_$(TOOLCHAIN)
 
-step6_AC6:
+step3_AC6:
 	# Generate disassembly and binary file
 	for this_hardware in $(HARDWARE_LIST) ; do \
 	 fromelf -c -d -e -s out/$$this_hardware/$(PROJECT_NAME).axf --output out/$$this_hardware/list.txt ;\
 	 fromelf --bin --output out/$$this_hardware/test.bin out/$$this_hardware/$(PROJECT_NAME).axf ;\
 	done
 
-step6_GCC:
+step3_GCC:
 	# Generate disassembly and binary file
 	for this_hardware in $(HARDWARE_LIST) ; do \
 	 arm-none-eabi-objdump -S out/$$this_hardware/$(PROJECT_NAME).elf > out/$$this_hardware/list.txt ;\
 	 arm-none-eabi-objcopy  -O binary out/$$this_hardware/$(PROJECT_NAME).elf out/$$this_hardware/test.bin ;\
 	done
 
-step6_CLANG:
+step3_CLANG:
 	# Generate disassembly and binary file
 	for this_hardware in $(HARDWARE_LIST) ; do \
 	 llvm-objdump -S out/$$this_hardware/$(PROJECT_NAME).elf > out/$$this_hardware/list.txt ;\
 	 llvm-objcopy  -O binary out/$$this_hardware/$(PROJECT_NAME).elf out/$$this_hardware/test.bin ;\
 	done
 
-step6_IAR:
+step3_IAR:
 	# Generate disassembly and binary file
 	for this_hardware in $(HARDWARE_LIST) ; do \
 	  ielfdumparm --all --source out/$$this_hardware/$(PROJECT_NAME).out --output out/$$this_hardware/list.txt ;\

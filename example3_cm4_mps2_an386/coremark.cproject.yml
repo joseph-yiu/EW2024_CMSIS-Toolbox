@@ -1,8 +1,8 @@
 project:
   packs:
     - pack: ARM::CMSIS                     # Note:version specifier is optional
-    - pack: Keil::V2M-MPS2_CMx_BSP         # Note:version specifier is optional
-    - pack: Keil::MDK-Middleware           # Need by the LED component
+    - pack: Keil::V2M-MPS2_CMx_BSP@1.8.1   # Note:version specifier is optional
+    - pack: Keil::MDK-Middleware@7.17.0    # Need by the LED component
     - pack: Keil::MDK-Middleware_Graphics  # Need by the MDK-Middleware pack
     - pack: ARM::CMSIS-Compiler            # CMSIS-Compiler for printf
   setups:

@@ -5,11 +5,8 @@
 # make GCC      # Run all steps using GCC
 # make IAR      # Run all steps using IAR
 # make step1                                # Run step1 only - update local index file 
-# make step2                                # Run step2 only - Identified if any CMSIS-PACK is missing
-# make step3                                # Run step3 only - Add missing CMSIS-PACK
-# make step4 TOOLCHAIN={AC6/CLANG/GCC/IAR)  # Generate build information files
-# make step5 TOOLCHAIN={AC6/CLANG/GCC/IAR)  # Build project with Command Line Interface
-# make step6 TOOLCHAIN={AC6/CLANG/GCC/IAR)  # Generate disassembly and binary file
+# make step2 TOOLCHAIN={AC6/CLANG/GCC/IAR)  # Build project with Command Line Interface
+# make step3 TOOLCHAIN={AC6/CLANG/GCC/IAR)  # Generate disassembly and binary file
 
 PROJECT_NAME   = hello
 HARDWARE_TYPE  = MPS3-Corstone-300
@@ -20,7 +17,7 @@ CSOLUTION_OPTIONS =
 CFG_UPDATE_RTE = 1
 
 ifeq ($(CFG_UPDATE_RTE),1)
-  CSOLUTION_OPTIONS += update-rte
+  CSOLUTION_OPTIONS += --update-rte
 endif
 
 # TOOLCHAIN = AC6/GCC/CLANG/IAR
@@ -32,81 +29,57 @@ ac6: AC6
 
 AC6:
 	cpackget update-index
-	csolution list packs -s $(CSOLUTION_FILE) -m > required_packs.txt
-	cpackget add -f required_packs.txt
-	csolution convert $(CSOLUTION_FILE) $(CSOLUTION_OPTIONS) --toolchain AC6
-	cbuild $(PROJECT_NAME)+$(HARDWARE_TYPE).cprj --toolchain AC6
-	make step6_AC6
+	cbuild $(CSOLUTION_FILE) $(CSOLUTION_OPTIONS) --packs --toolchain AC6 
+	make step3_AC6
 
 gcc: GCC
 
 GCC:
 	cpackget update-index
-	csolution list packs -s $(CSOLUTION_FILE) -m > required_packs.txt
-	cpackget add -f required_packs.txt
-	csolution convert $(CSOLUTION_FILE) $(CSOLUTION_OPTIONS) --toolchain GCC
-	cbuild $(PROJECT_NAME)+$(HARDWARE_TYPE).cprj --toolchain GCC
-	make step6_GCC
+	cbuild $(CSOLUTION_FILE) $(CSOLUTION_OPTIONS) --packs --toolchain GCC
+	make step3_GCC
 
 clang: CLANG
 
 CLANG:
 	cpackget update-index
-	csolution list packs -s $(CSOLUTION_FILE) -m > required_packs.txt
-	cpackget add -f required_packs.txt
-	csolution convert $(CSOLUTION_FILE) $(CSOLUTION_OPTIONS) --toolchain CLANG
-	cbuild $(PROJECT_NAME)+$(HARDWARE_TYPE).cprj --toolchain CLANG
-	make step6_CLANG
+	cbuild $(CSOLUTION_FILE) $(CSOLUTION_OPTIONS) --packs --toolchain CLANG
+	make step3_CLANG
 
 iar: IAR
 
 IAR:
 	cpackget update-index
-	csolution list packs -s $(CSOLUTION_FILE) -m > required_packs.txt
-	cpackget add -f required_packs.txt
-	csolution convert $(CSOLUTION_FILE) $(CSOLUTION_OPTIONS) --toolchain IAR
-	cbuild $(PROJECT_NAME)+$(HARDWARE_TYPE).cprj --toolchain IAR
+	cbuild $(CSOLUTION_FILE) $(CSOLUTION_OPTIONS) --packs --toolchain IAR
 	make step6_IAR
+
 
 step1:
 	# Optional. If local index file get outdated, you need to run this
 	cpackget update-index
 	
 step2:
-	# Identified if any CMSIS-PACK is missing
-	csolution list packs -s $(CSOLUTION_FILE) -m > required_packs.txt
-	cat required_packs.txt
+	# Build project with Command Line Interface and automatically download packs if needed
+	cbuild $(CSOLUTION_FILE) $(CSOLUTION_OPTIONS) --packs --toolchain $(TOOLCHAIN)
 
-step3:
-	# Add missing CMSIS-PACK
-	cpackget add -f required_packs.txt
+step3: step3_$(TOOLCHAIN)
 
-step4:
-	# Generate build information files
-	csolution convert $(CSOLUTION_FILE) $(CSOLUTION_OPTIONS) --toolchain $(TOOLCHAIN)
-
-step5:
-	# Build project with Command Line Interface
-	cbuild $(PROJECT_NAME)+$(HARDWARE_TYPE).cprj --toolchain $(TOOLCHAIN)
-
-step6: step6_$(TOOLCHAIN)
-
-step6_AC6:
+step3_AC6:
 	# Generate disassembly and binary file
 	fromelf -c -d -e -s out/$(HARDWARE_TYPE)/$(PROJECT_NAME).axf --output out/$(HARDWARE_TYPE)/list.txt
 	fromelf --bin --output out/$(HARDWARE_TYPE)/test.bin out/$(HARDWARE_TYPE)/$(PROJECT_NAME).axf
 
-step6_GCC:
+step3_GCC:
 	# Generate disassembly and binary file
 	arm-none-eabi-objdump -S out/$(HARDWARE_TYPE)/$(PROJECT_NAME).elf > out/$(HARDWARE_TYPE)/list.txt
 	arm-none-eabi-objcopy  -O binary out/$(HARDWARE_TYPE)/$(PROJECT_NAME).elf out/$(HARDWARE_TYPE)/test.bin
 
-step6_CLANG:
+step3_CLANG:
 	# Generate disassembly and binary file
 	llvm-objdump -S out/$(HARDWARE_TYPE)/$(PROJECT_NAME).elf > out/$(HARDWARE_TYPE)/list.txt
 	llvm-objcopy  -O binary out/$(HARDWARE_TYPE)/$(PROJECT_NAME).elf out/$(HARDWARE_TYPE)/test.bin
 
-step6_IAR:
+step3_IAR:
 	# Generate disassembly and binary file
 	ielfdumparm --all --source out/$(HARDWARE_TYPE)/$(PROJECT_NAME).out --output out/$(HARDWARE_TYPE)/list.txt
 	ielftool --bin out/$(HARDWARE_TYPE)/$(PROJECT_NAME).out out/$(HARDWARE_TYPE)/test.bin

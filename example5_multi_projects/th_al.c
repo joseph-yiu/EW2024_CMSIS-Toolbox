@@ -675,7 +675,7 @@ int	al_vfscanf(ee_FILE *stream, const char *format, va_list ap)
 #if defined ( __ICCARM__ )
 	return NULL;
 #else
-	return vfscanf(stream,format,ap);
+	return vfscanf((FILE * restrict) stream,format,ap);
 #endif	
 #else
 	return NULL;

@@ -61,6 +61,7 @@ layer:
             - -fno-if-conversion2
             - -fselective-scheduling
             - -fno-code-hoisting
+            - -Wno-implicit-function-declaration
           Link:
             #- --specs=nano.specs
             #- --specs=rdimon.specs
