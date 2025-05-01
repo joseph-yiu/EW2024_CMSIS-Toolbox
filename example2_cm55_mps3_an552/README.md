@@ -24,34 +24,14 @@ Before starting, edit <project_name>.csolution.yml to select toolchain (GCC/CLAN
 /* Step 1 : Update local copy of pack index */
 cpackget update-index
 ```
-Note: Not required for a new installation and usually this is not needed. But if the local CMSIS-Pack storage hasn't been used for a while, it worth running it to ensure the index is up-to-date.
-```
-/* Step 2: Generate the list of missing packs */
-csolution list packs hello.csolution.yml -m > required_packs.txt
-```
-```
-/* Step 3: Install missing packs */
-cpackget add -f required_packs.txt
-```
-
-```
-/* Step 4: Generate build information */
-csolution convert hello.csolution.yml update-rte
-```
-
-```
-/* Step 5: Compile project with cbuild */
-cbuild hello+MPS3-Corstone-300.cprj
-```
-Note: For AC6 only - Instead of using cbuild, you can use an IDE such as Keil MDK to compile the generated project.
-
-Note: For IAR only - Instead of running step 4 and step 5, you can import csolution project in EWARM to compile the project.
-
-Alternatively, step 2 to step 5 can be shortened as one step:
+Note: This is not required for a new installation and usually this is not needed. But if the local CMSIS-Pack storage hasn't been used for a while, it worth running it to ensure the index is up-to-date.
 ```
 /* Step 2: Download packs and compile the project in one go */
 cbuild hello.csolution.yml --packs --update-rte
 ```
+
+Note: For IAR EWARM only - Instead of running step 2, you can import csolution project in EWARM to compile the project.
+
 You can also override the toolchain choice (the following example use AC6, but it can also be GCC, CLANG or IAR):
 ```
 /* Step 2: Download packs and compile the project in one go */

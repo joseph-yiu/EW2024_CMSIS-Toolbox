@@ -37,49 +37,25 @@ Before starting, edit coremark.csolution.yml to select toolchain (GCC/CLANG/AC6/
 /* Step 1 : Update local copy of pack index */
 cpackget update-index
 ```
-
-Note: Not required for a new installation and usually this is not needed. But if the local CMSIS-Pack storage hasn't been used for a while, it worth running it to ensure the index is up-to-date.
+Note: This is not required for a new installation and usually this is not needed. But if the local CMSIS-Pack storage hasn't been used for a while, it worth running it to ensure the index is up-to-date.
 ```
-/* Step 2: Generate the list of missing packs */
-csolution list packs coremark.csolution.yml -m > required_packs.txt
+/* Step 2: Download packs and compile the project in one go */
+cbuild coremark.csolution.yml -context coremark+<context_name> --packs --update-rte
 ```
-
-```
-/* Step 3: Install missing packs */
-cpackget add -f required_packs.txt
-```
-
-```
-/* Step 4: Generate build information */
-csolution convert coremark.csolution.yml update-rte
-```
-
-```
-/* Step 5: Compile project with cbuild */
-cbuild coremark+<context_name>.cprj
-```
-
 Note: <context_name> can be MPS2_CM0 / MPS2_CM0plus /
  MPS2_CM3 / MPS2_CM4 / MPS2_CM4_FP / MPS2_CM7 /
  MPS2_CM7_SP / MPS2_CM7_DP / MPS2_CM23 / MPS2_CM33 /
  MPS2_CM33_FP / MPS3-Corstone-300 / MPS3-Corstone-310
 
-Note: For IAR only - Instead of running step 4 and step 5, you can import csolution project in EWARM to compile the project.
-
-Alternatively, step 2 to step 5 can be shortened as one step:
-```
-/* Step 2: Download packs and compile the project in one go */
-cbuild coremark.csolution.yml --packs --update-rte
-```
+Note: For IAR EWARM only - Instead of running step 2, you can import csolution project in EWARM to compile the project.
 
 You can also override the toolchain choice (the following example use AC6, but it can also be GCC, CLANG or IAR):
-
 ```
 /* Step 2: Download packs and compile the project in one go */
-cbuild coremark.csolution.yml --packs --update-rte --toolchain AC6
+cbuild coremark.csolution.yml --context coremark+<context_name> --packs --update-rte --toolchain AC6
 ```
-
 ## Disclaimers
 
-- CoreMark is a benchmark from SPEC Embedded Group (formerly EEMBC) and is not a property of Arm.
-- The compilation options for CoreMark and CoreMark-Pro used in these examples have not been tested for best performance.
+* CoreMark is a benchmark from SPEC Embedded Group (formerly EEMBC) and is not a property of Arm.
+* The compilation options for CoreMark and CoreMark-Pro used in these examples have not been tested for best performance.
+

@@ -28,39 +28,20 @@ cpackget update-index
 Note: Not required for a new installation and usually this is not needed. But if the local CMSIS-Pack storage hasn't been used for a while, it worth running it to ensure the index is up-to-date.
 
 ```
-/* Step 2: Generate the list of missing packs */
-csolution list packs coremark-pro.csolution.yml -m > required_packs.txt
-```
-
-```
-/* Step 3: Install missing packs */
-cpackget add -f required_packs.txt
-```
-
-```
-/* Step 4: Generate build information */
-csolution convert coremark-pro.csolution.yml update-rte
-```
-
-```
-/* Step 5: Compile project with cbuild */
-cbuild proj_{project_name}/{project_name}+MPS2_CM7_DP.cprj
+/* Step 2: Download packs and compile the project in one go  */
+cbuild coremark-pro.csolution.yml --packs --update-rte --context {project_name}+MPS2_CM7_DP
 ```
 
 Note: For IAR only - Instead of running step 4 and step 5, you can import csolution project in EWARM to compile the project.
 
-Alternatively, step 2 to step 5 can be shortened as one step:
-```
-/* Step 2: Download packs and compile the project in one go */
-cbuild coremark-pro.csolution.yml --packs --update-rte
-```
 You can also override the toolchain choice (the following example use AC6, but it can also be GCC, CLANG or IAR):
 ```
 /* Step 2: Download packs and compile the project in one go */
-cbuild coremark-pro.csolution.yml --packs --update-rte --toolchain AC6
+cbuild coremark-pro.csolution.yml --packs --update-rte --context {project_name}+MPS2_CM7_DP --toolchain AC6
 ```
 
 ## Disclaimers
 
 * CoreMark-Pro is a benchmark from SPEC Embedded Group (formerly EEMBC) and is not property of Arm.
 * The compilation options for CoreMark and CoreMark-Pro used in these examples have not been tested for best performance.
+
