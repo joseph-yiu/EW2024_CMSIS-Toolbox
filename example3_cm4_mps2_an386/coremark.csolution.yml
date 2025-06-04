@@ -9,7 +9,7 @@ solution:
   target-types:
     - type: MPS2_CM4_FP
       device: CMSDK_CM4_FP   # or ARM::CMSDK_CM4_FP
-      optimize: speed
+      #optimize: speed
       misc:
         - C:
           - -DCMSDK_CM4_FP

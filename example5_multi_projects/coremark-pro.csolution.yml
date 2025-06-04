@@ -11,7 +11,7 @@ solution:
   target-types:
     - type: MPS2_CM7_DP
       device: CMSDK_CM7_DP
-      optimize: speed
+      #optimize: speed
       misc:
         - C:
           - -DCMSDK_CM7_DP
