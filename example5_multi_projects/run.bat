@@ -66,7 +66,7 @@ cpackget update-index
 @echo Step 2 - Build project with Command Line Interface
 
 for %%t in ( %TEST_LIST%  ) do (
-  cbuild %CSOLUTION_FILE% %CSOLUTION_OPTIONS% --context%%t+%HARDWARE_TYPE% --packs --toolchain %TOOLCHAIN%
+  cbuild %CSOLUTION_FILE% %CSOLUTION_OPTIONS% --context %%t+%HARDWARE_TYPE% --packs --toolchain %TOOLCHAIN%
   )
 
 @rem -------------------------------------
